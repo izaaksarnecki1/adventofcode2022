@@ -62,7 +62,6 @@ def main():
 
     stacklist = []
     for val in dict_stacks.values():
-
         stacklist.append(val[-1])
     print("".join(stacklist))
 
