@@ -16,6 +16,21 @@ def get_sections(content):
     return instructions, levels, stacks
 
 
+def handle_move2(instruction: str, dict_stacks: dict) -> None:
+    quantity, from_stack_order, to_stack_order = [
+        int(i) for i in instruction.split(" ") if i.isnumeric()
+    ]
+    from_list = dict_stacks[from_stack_order]
+    to_list = dict_stacks[to_stack_order]
+    
+    for i in from_list[-quantity:]:
+        to_list.append(i)
+    if from_list:
+        del from_list[-quantity:]
+    dict_stacks[to_stack_order] = to_list
+    dict_stacks[from_stack_order] = from_list
+
+
 def handle_move(instruction: str, dict_stacks: dict) -> None:
     quantity, from_stack_order, to_stack_order = [
         int(i) for i in instruction.split(" ") if i.isnumeric()
@@ -39,14 +54,18 @@ def main():
     for i, key in enumerate(dict_stacks.keys()):
         dict_stacks[key] = stacks[i]
 
-    for instruction in instructions:
-        handle_move(instruction, dict_stacks)
+    # for instruction in instructions:
+    #     handle_move(instruction, dict_stacks)
+
+    for insturction in instructions:
+        handle_move2(insturction, dict_stacks)
 
     stacklist = []
     for val in dict_stacks.values():
+
         stacklist.append(val[-1])
-        
     print("".join(stacklist))
 
 
-main()
+if __name__ == '__main__':
+    main()
